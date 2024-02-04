@@ -4,10 +4,10 @@ import { TaskDTO } from './task.dto';
 
 @Controller('task')
 export class TaskController {
-  constructor(private readonly categoryService: TaskService) {}
+  constructor(private readonly taskService: TaskService) {}
 
   @Post()
   async create(@Body() data: TaskDTO) {
-    return this.categoryService.create(data);
+    return this.taskService.create(data);
   }
 }
