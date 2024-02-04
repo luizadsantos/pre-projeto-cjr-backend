@@ -1,6 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { PrismaService } from 'src/database/PrismaService';
-import { TaskCreateDTO } from './task.dto';
+import { TaskCreateDTO, TaskUpdateDTO } from './task.dto';
 import { CategoryDTO } from '../category/category.dto';
 import { categoryResponses } from '../category/category.service';
 
@@ -67,6 +67,33 @@ export class TaskService {
     });
 
     if (!task) throw new Error(taskResponses[404] + ' - Error Code: ' + 404);
+
+    return task;
+  }
+
+  async update(data: TaskUpdateDTO) {
+    const taskExists = await this.prisma.task.findUnique({
+      where: {
+        id: data.id,
+      },
+    });
+
+    if (!taskExists)
+      throw new Error(taskResponses[404] + ' - Error Code: ' + 404);
+
+    const currentDate = new Date();
+
+    const task = await this.prisma.task.update({
+      data: {
+        id: data.id,
+        name: data.name,
+        isActive: data.isActive,
+        updatedAt: currentDate.toISOString(),
+      },
+      where: {
+        id: data.id,
+      },
+    });
 
     return task;
   }
