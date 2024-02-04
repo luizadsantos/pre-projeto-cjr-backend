@@ -1,6 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { PrismaService } from 'src/database/PrismaService';
-import { CategoryCreateDTO } from './category.dto';
+import { CategoryCreateDTO, CategoryUpdateDTO } from './category.dto';
 
 export const categoryResponses = {
   404: 'Category not found',
@@ -48,6 +48,32 @@ export class CategoryService {
 
     if (!category)
       throw new Error(categoryResponses[404] + ' - Error Code: ' + 404);
+
+    return category;
+  }
+
+  async update(data: CategoryUpdateDTO) {
+    const categoryExists = await this.prisma.category.findUnique({
+      where: {
+        id: data.id,
+      },
+    });
+
+    if (!categoryExists)
+      throw new Error(categoryResponses[404] + ' - Error Code: ' + 404);
+
+    const currentDate = new Date();
+
+    const category = await this.prisma.category.update({
+      data: {
+        name: data.name,
+        id: data.id,
+        updatedAt: currentDate.toISOString(),
+      },
+      where: {
+        id: data.id,
+      },
+    });
 
     return category;
   }
