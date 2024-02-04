@@ -1,7 +1,26 @@
 export type TaskDTO = {
-  id?: string;
+  id: number;
   name: string;
-  description: string;
-  categoryId?: string;
-  categoryName?: string;
+  isActive: boolean;
+  categoryId: number;
+  createdAt: Date;
+  updatedAt: Date;
+};
+
+export type TaskCreateDTO = {
+  id?: number;
+  name: string;
+  isActive?: boolean;
+  categoryId: number;
+  createdAt?: Date;
+  updatedAt?: Date;
+};
+
+export type TaskUpdateDTO = {
+  id?: number;
+  name: string;
+  isActive: boolean;
+  categoryId?: number;
+  createdAt?: Date;
+  updatedAt?: Date;
 };
