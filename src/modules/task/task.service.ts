@@ -3,6 +3,13 @@ import { PrismaService } from 'src/database/PrismaService';
 import { TaskDTO } from './task.dto';
 import { CategoryDTO } from '../category/category.dto';
 
+export const taskResponses = {
+  409: 'This task already exists',
+  404: "This category doesn't exist",
+  400: "There isn't a categoryId or a categoryName",
+  200: 'Task successfully created!',
+};
+
 @Injectable()
 export class TaskService {
   constructor(private prisma: PrismaService) {}
@@ -14,7 +21,8 @@ export class TaskService {
       },
     });
 
-    if (taskExists) throw new Error('This task already exists');
+    if (taskExists)
+      throw new Error(taskResponses[409] + ' - Error code: ' + 409);
 
     if (!data?.categoryId && data?.categoryName) {
       const categoryExists: CategoryDTO = await this.prisma.category.findFirst({
@@ -23,7 +31,8 @@ export class TaskService {
         },
       });
 
-      if (!categoryExists) throw new Error("This categoryName doesn't exist");
+      if (!categoryExists)
+        throw new Error(taskResponses[404] + ' - Error code: ' + 404);
 
       data.categoryId = categoryExists.id;
     } else if (data?.categoryId) {
@@ -33,9 +42,10 @@ export class TaskService {
         },
       });
 
-      if (!categoryExists) throw new Error("This categoryId doesn't exist");
+      if (!categoryExists)
+        throw new Error(taskResponses[404] + ' - Error code: ' + 404);
     } else {
-      throw new Error("There isn't a categoryId or a categoryName");
+      throw new Error(taskResponses[400] + ' - Error code: ' + 400);
     }
 
     const task = await this.prisma.task.create({
@@ -46,7 +56,7 @@ export class TaskService {
       },
     });
 
-    console.log('Task successfully created!', data);
+    console.log(taskResponses[200], data);
 
     return task;
   }
