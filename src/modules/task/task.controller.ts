@@ -30,14 +30,6 @@ export class TaskController {
   @ApiResponse({ status: 404, description: taskResponses[404] })
   @Get(':id')
   async showById(@Param('id') id: string) {
-    return await this.taskService.showById(id);
-  }
-
-  @ApiOperation({ summary: 'Show an specified task by name' })
-  @ApiResponse({ status: 200, description: taskResponses[200] })
-  @ApiResponse({ status: 404, description: taskResponses[404] })
-  @Get('name/:name')
-  async showByName(@Param('name') name: string) {
-    return await this.taskService.showByName(name);
+    return await this.taskService.showById(parseInt(id));
   }
 }
