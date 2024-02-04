@@ -5,7 +5,7 @@ import { CategoryDTO } from '../category/category.dto';
 
 export const taskResponses = {
   409: 'This task already exists',
-  404: "This category doesn't exist",
+  404: "This task doesn't exist",
   400: "There isn't a categoryId or a categoryName",
   200: 'Task successfully created!',
 };
@@ -57,6 +57,30 @@ export class TaskService {
     });
 
     console.log(taskResponses[200], data);
+
+    return task;
+  }
+
+  async showAll() {
+    return await this.prisma.task.findMany();
+  }
+
+  async showById(id: string) {
+    const task = await this.prisma.task.findUnique({
+      where: { id },
+    });
+
+    if (!task) throw new Error(taskResponses[400] + ' - Error Code: ' + 400);
+
+    return task;
+  }
+
+  async showByName(name: string) {
+    const task = await this.prisma.task.findUnique({
+      where: { name },
+    });
+
+    if (!task) throw new Error(taskResponses[400] + ' - Error Code: ' + 400);
 
     return task;
   }
