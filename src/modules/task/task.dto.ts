@@ -1,6 +1,7 @@
 export type TaskDTO = {
-  id: string;
+  id?: string;
   name: string;
   description: string;
-  categoryId: string;
+  categoryId?: string;
+  categoryName?: string;
 };
