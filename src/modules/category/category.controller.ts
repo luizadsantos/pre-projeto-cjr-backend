@@ -1,6 +1,6 @@
-import { Body, Controller, Get, Param, Post } from '@nestjs/common';
+import { Body, Controller, Get, Param, Patch, Post } from '@nestjs/common';
 import { CategoryService, categoryResponses } from './category.service';
-import { CategoryDTO } from './category.dto';
+import { CategoryDTO, CategoryUpdateDTO } from './category.dto';
 import { ApiOperation, ApiResponse, ApiTags } from '@nestjs/swagger';
 
 @ApiTags('Categories routes')
@@ -29,5 +29,14 @@ export class CategoryController {
   @Get(':id')
   async showById(@Param('id') id: string) {
     return await this.categoryService.showById(parseInt(id));
+  }
+
+  @ApiOperation({ summary: 'Update an specified category by id' })
+  @ApiResponse({ status: 200, description: categoryResponses[200] })
+  @ApiResponse({ status: 404, description: categoryResponses[404] })
+  @Patch(':id')
+  async update(@Body() data: CategoryUpdateDTO, @Param('id') id: string) {
+    data.id = parseInt(id);
+    return await this.categoryService.update(data);
   }
 }
