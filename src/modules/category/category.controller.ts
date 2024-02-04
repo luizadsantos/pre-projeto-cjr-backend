@@ -28,14 +28,6 @@ export class CategoryController {
   @ApiResponse({ status: 404, description: categoryResponses[404] })
   @Get(':id')
   async showById(@Param('id') id: string) {
-    return await this.categoryService.showById(id);
-  }
-
-  @ApiOperation({ summary: 'Show an specified category by name' })
-  @ApiResponse({ status: 200, description: categoryResponses[200] })
-  @ApiResponse({ status: 404, description: categoryResponses[404] })
-  @Get('name/:name')
-  async showByName(@Param('name') name: string) {
-    return await this.categoryService.showByName(name);
+    return await this.categoryService.showById(parseInt(id));
   }
 }
