@@ -25,7 +25,7 @@ export class TaskController {
     return await this.taskService.showAll();
   }
 
-  @ApiOperation({ summary: 'Show an specified task by id' })
+  @ApiOperation({ summary: 'Show a task specified by id' })
   @ApiResponse({ status: 200, description: taskResponses[200] })
   @ApiResponse({ status: 404, description: taskResponses[404] })
   @Get(':id')
@@ -33,7 +33,7 @@ export class TaskController {
     return await this.taskService.showById(parseInt(id));
   }
 
-  @ApiOperation({ summary: 'Update an specified task by id' })
+  @ApiOperation({ summary: 'Update a task specified by id' })
   @ApiResponse({ status: 200, description: taskResponses[200] })
   @ApiResponse({ status: 404, description: taskResponses[404] })
   @Patch(':id')

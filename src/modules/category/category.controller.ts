@@ -23,7 +23,7 @@ export class CategoryController {
     return await this.categoryService.showAll();
   }
 
-  @ApiOperation({ summary: 'Show an specified category by id' })
+  @ApiOperation({ summary: 'Show a category specified by id' })
   @ApiResponse({ status: 200, description: categoryResponses[200] })
   @ApiResponse({ status: 404, description: categoryResponses[404] })
   @Get(':id')
@@ -31,7 +31,7 @@ export class CategoryController {
     return await this.categoryService.showById(parseInt(id));
   }
 
-  @ApiOperation({ summary: 'Update an specified category by id' })
+  @ApiOperation({ summary: 'Update a category specified by id' })
   @ApiResponse({ status: 200, description: categoryResponses[200] })
   @ApiResponse({ status: 404, description: categoryResponses[404] })
   @Patch(':id')
