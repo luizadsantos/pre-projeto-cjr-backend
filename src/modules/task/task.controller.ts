@@ -64,4 +64,11 @@ export class TaskController {
   async delete(@Param('id') id: string) {
     return await this.taskService.delete(parseInt(id));
   }
+
+  @ApiOperation({ summary: 'Deletes all non-active tasks' })
+  @ApiResponse({ status: 200, description: responses.task[200].message })
+  @Delete()
+  async deleteNonActive() {
+    return await this.taskService.deleteNonActive();
+  }
 }

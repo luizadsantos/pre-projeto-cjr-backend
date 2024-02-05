@@ -120,4 +120,25 @@ export class TaskService {
       statusCode: 200,
     };
   }
+
+  async deleteNonActive() {
+    const nonActiveTasks = await this.prisma.task.findMany({
+      where: {
+        isActive: false,
+      },
+    });
+
+    if (nonActiveTasks.length == 0) return [];
+
+    await this.prisma.task.deleteMany({
+      where: {
+        isActive: false,
+      },
+    });
+
+    return {
+      data: nonActiveTasks,
+      statusCode: 200,
+    };
+  }
 }
