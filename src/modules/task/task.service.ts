@@ -6,9 +6,10 @@ import { categoryResponses } from '../category/category.service';
 
 export const taskResponses = {
   409: 'This task already exists',
-  404: "This task doesn't exist",
+  404: 'Task not found',
   400: "There isn't a categoryId or a categoryName",
-  200: 'Task successfully created!',
+  201: 'Task successfully created!',
+  200: 'Successful operation',
 };
 
 @Injectable()
@@ -48,8 +49,6 @@ export class TaskService {
       },
     });
 
-    console.log(taskResponses[200], data);
-
     return task;
   }
 
@@ -76,6 +75,17 @@ export class TaskService {
 
     if (!taskExists)
       throw new Error(taskResponses[404] + ' - Error Code: ' + 404);
+
+    if (data?.categoryId) {
+      const categoryExists = await this.prisma.category.findUnique({
+        where: {
+          id: data.categoryId,
+        },
+      });
+
+      if (!categoryExists)
+        throw new Error(categoryResponses[404] + ' - Error Code: ' + 404);
+    }
 
     const task = await this.prisma.task.update({
       data: {
