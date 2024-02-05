@@ -1,4 +1,12 @@
-import { Body, Controller, Get, Param, Patch, Post } from '@nestjs/common';
+import {
+  Body,
+  Controller,
+  Delete,
+  Get,
+  Param,
+  Patch,
+  Post,
+} from '@nestjs/common';
 import { TaskService, taskResponses } from './task.service';
 import { TaskDTO, TaskUpdateDTO } from './task.dto';
 import { ApiOperation, ApiResponse, ApiTags } from '@nestjs/swagger';
@@ -40,5 +48,13 @@ export class TaskController {
   async update(@Body() data: TaskUpdateDTO, @Param('id') id: string) {
     data.id = parseInt(id);
     return await this.taskService.update(data);
+  }
+
+  @ApiOperation({ summary: 'Delete a task specified by id' })
+  @ApiResponse({ status: 200, description: taskResponses[200] })
+  @ApiResponse({ status: 404, description: taskResponses[404] })
+  @Delete(':id')
+  async delete(@Param('id') id: string) {
+    return await this.taskService.delete(parseInt(id));
   }
 }
