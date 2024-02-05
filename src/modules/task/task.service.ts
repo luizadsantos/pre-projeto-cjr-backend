@@ -40,15 +40,11 @@ export class TaskService {
       throw new Error(taskResponses[400] + ' - Error code: ' + 400);
     }
 
-    const currentDate = new Date();
-
     const task = await this.prisma.task.create({
       data: {
         name: data.name,
         isActive: data.isActive,
         categoryId: data.categoryId,
-        createdAt: currentDate.toISOString(),
-        updatedAt: currentDate.toISOString(),
       },
     });
 
@@ -81,14 +77,11 @@ export class TaskService {
     if (!taskExists)
       throw new Error(taskResponses[404] + ' - Error Code: ' + 404);
 
-    const currentDate = new Date();
-
     const task = await this.prisma.task.update({
       data: {
         id: data.id,
         name: data.name,
         isActive: data.isActive,
-        updatedAt: currentDate.toISOString(),
       },
       where: {
         id: data.id,
