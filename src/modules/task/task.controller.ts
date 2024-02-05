@@ -49,6 +49,15 @@ export class TaskController {
     return await this.taskService.showById(parseInt(id));
   }
 
+  @ApiOperation({ summary: 'Shows a task specified by category' })
+  @ApiResponse({ status: 200, description: responses.task[200].message })
+  @ApiResponse({ status: 400, description: responses.task[400].error })
+  @ApiResponse({ status: 404, description: responses.category[404].error })
+  @Get('category/:id')
+  async showAllByCategory(@Param('id') id: string) {
+    return await this.taskService.showAllByCategory(parseInt(id));
+  }
+
   @ApiOperation({ summary: 'Updates a task specified by id' })
   @ApiResponse({ status: 200, description: responses.task[200].message })
   @ApiResponse({ status: 400, description: responses.task[400].error })

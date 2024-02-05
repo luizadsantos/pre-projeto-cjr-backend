@@ -148,4 +148,22 @@ export class TaskService {
       statusCode: 200,
     };
   }
+
+  async showAllByCategory(id: number) {
+    if (isNaN(id)) generateError('task', 400);
+
+    const categoryExists = await this.prisma.category.findUnique({
+      where: {
+        id,
+      },
+    });
+
+    if (!categoryExists) generateError('category', 400);
+
+    return await this.prisma.task.findMany({
+      where: {
+        categoryId: id,
+      },
+    });
+  }
 }
