@@ -17,7 +17,7 @@ export class CategoryController {
   constructor(private readonly categoryService: CategoryService) {}
 
   @ApiOperation({ summary: 'Create a new category' })
-  @ApiResponse({ status: 200, description: categoryResponses[200] })
+  @ApiResponse({ status: 201, description: categoryResponses[201] })
   @ApiResponse({ status: 400, description: categoryResponses[400] })
   @ApiResponse({ status: 409, description: categoryResponses[409] })
   @Post()
