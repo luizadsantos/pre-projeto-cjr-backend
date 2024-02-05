@@ -22,13 +22,9 @@ export class CategoryService {
     if (categoryExists)
       throw new Error(categoryResponses[409] + ' - Error Code: ' + 409);
 
-    const currentDate = new Date();
-
     const category = await this.prisma.category.create({
       data: {
         name: data.name,
-        createdAt: currentDate.toISOString(),
-        updatedAt: currentDate.toISOString(),
       },
     });
 
@@ -62,13 +58,10 @@ export class CategoryService {
     if (!categoryExists)
       throw new Error(categoryResponses[404] + ' - Error Code: ' + 404);
 
-    const currentDate = new Date();
-
     const category = await this.prisma.category.update({
       data: {
         name: data.name,
         id: data.id,
-        updatedAt: currentDate.toISOString(),
       },
       where: {
         id: data.id,
