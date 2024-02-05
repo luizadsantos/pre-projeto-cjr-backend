@@ -10,6 +10,7 @@ import {
 import { TaskService, taskResponses } from './task.service';
 import { TaskDTO, TaskUpdateDTO } from './task.dto';
 import { ApiOperation, ApiResponse, ApiTags } from '@nestjs/swagger';
+import { categoryResponses } from '../category/category.service';
 
 @ApiTags('Tasks routes')
 @Controller('task')
@@ -17,9 +18,8 @@ export class TaskController {
   constructor(private readonly taskService: TaskService) {}
 
   @ApiOperation({ summary: 'Create a new task' })
-  @ApiResponse({ status: 200, description: taskResponses[200] })
+  @ApiResponse({ status: 200, description: taskResponses[201] })
   @ApiResponse({ status: 409, description: taskResponses[409] })
-  @ApiResponse({ status: 404, description: taskResponses[404] })
   @ApiResponse({ status: 400, description: taskResponses[400] })
   @Post()
   async create(@Body() data: TaskDTO) {
@@ -43,7 +43,10 @@ export class TaskController {
 
   @ApiOperation({ summary: 'Update a task specified by id' })
   @ApiResponse({ status: 200, description: taskResponses[200] })
-  @ApiResponse({ status: 404, description: taskResponses[404] })
+  @ApiResponse({
+    status: 404,
+    description: taskResponses[404] + ' or ' + categoryResponses[404],
+  })
   @Patch(':id')
   async update(@Body() data: TaskUpdateDTO, @Param('id') id: string) {
     data.id = parseInt(id);
