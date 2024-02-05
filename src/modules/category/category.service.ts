@@ -3,6 +3,7 @@ import { PrismaService } from 'src/database/PrismaService';
 import { CategoryCreateDTO, CategoryUpdateDTO } from './category.dto';
 
 export const categoryResponses = {
+  400: 'Invalid request format',
   404: 'Category not found',
   409: 'This category already exists',
   200: 'Category successfully created!',
@@ -13,6 +14,9 @@ export class CategoryService {
   constructor(private prisma: PrismaService) {}
 
   async create(data: CategoryCreateDTO) {
+    if (!data.name)
+      throw new Error(categoryResponses[400] + ' - Error code: ' + 400);
+
     const categoryExists = await this.prisma.category.findUnique({
       where: {
         name: data.name,
@@ -38,6 +42,9 @@ export class CategoryService {
   }
 
   async showById(id: number) {
+    if (isNaN(id))
+      throw new Error(categoryResponses[400] + ' - Error Code: ' + 400);
+
     const category = await this.prisma.category.findUnique({
       where: { id },
     });
@@ -49,6 +56,9 @@ export class CategoryService {
   }
 
   async update(data: CategoryUpdateDTO) {
+    if (isNaN(data.id))
+      throw new Error(categoryResponses[400] + ' - Error Code: ' + 400);
+
     const categoryExists = await this.prisma.category.findUnique({
       where: {
         id: data.id,
@@ -72,6 +82,9 @@ export class CategoryService {
   }
 
   async delete(id: number) {
+    if (isNaN(id))
+      throw new Error(categoryResponses[400] + ' - Error Code: ' + 400);
+
     const categoryExists = await this.prisma.category.findUnique({
       where: { id },
     });
