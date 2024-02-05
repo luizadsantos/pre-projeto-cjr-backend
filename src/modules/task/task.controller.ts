@@ -33,6 +33,13 @@ export class TaskController {
     return await this.taskService.showAll();
   }
 
+  @ApiOperation({ summary: 'Shows all active tasks' })
+  @ApiResponse({ status: 200, description: responses.task[200].message })
+  @Get('active')
+  async showActive() {
+    return await this.taskService.showActive();
+  }
+
   @ApiOperation({ summary: 'Shows a task specified by id' })
   @ApiResponse({ status: 200, description: responses.task[200].message })
   @ApiResponse({ status: 400, description: responses.task[400].error })

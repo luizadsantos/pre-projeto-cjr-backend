@@ -141,4 +141,11 @@ export class TaskService {
       statusCode: 200,
     };
   }
+
+  async showActive() {
+    return {
+      data: await this.prisma.task.findMany({ where: { isActive: true } }),
+      statusCode: 200,
+    };
+  }
 }
