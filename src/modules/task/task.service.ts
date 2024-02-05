@@ -2,23 +2,14 @@ import { Injectable } from '@nestjs/common';
 import { PrismaService } from 'src/database/PrismaService';
 import { CreateTaskDTO, UpdateTaskDTO } from './dto';
 import { CategoryDTO } from '../category/dto';
-import { categoryResponses } from '../category/category.service';
-
-export const taskResponses = {
-  409: 'This task already exists',
-  404: 'Task not found',
-  400: 'Invalid request format',
-  201: 'Task successfully created!',
-  200: 'Successful operation',
-};
+import { generateError } from 'src/lib/helpers';
 
 @Injectable()
 export class TaskService {
   constructor(private prisma: PrismaService) {}
 
   async create(data: CreateTaskDTO) {
-    if (!data.name)
-      throw new Error(taskResponses[400] + ' - Error code: ' + 400);
+    if (!data.name) generateError('task', 400);
 
     const taskExists = await this.prisma.task.findFirst({
       where: {
@@ -26,8 +17,7 @@ export class TaskService {
       },
     });
 
-    if (taskExists)
-      throw new Error(taskResponses[409] + ' - Error code: ' + 409);
+    if (taskExists) generateError('task', 409);
 
     if (data?.categoryId) {
       const categoryExists: CategoryDTO = await this.prisma.category.findUnique(
@@ -38,8 +28,7 @@ export class TaskService {
         },
       );
 
-      if (!categoryExists)
-        throw new Error(categoryResponses[404] + ' - Error code: ' + 404);
+      if (!categoryExists) generateError('category', 404);
     }
 
     const task = await this.prisma.task.create({
@@ -50,29 +39,36 @@ export class TaskService {
       },
     });
 
-    return task;
+    return {
+      data: task,
+      statusCode: 201,
+    };
   }
 
   async showAll() {
-    return await this.prisma.task.findMany();
+    return {
+      data: await this.prisma.task.findMany(),
+      statusCode: 200,
+    };
   }
 
   async showById(id: number) {
-    if (isNaN(id))
-      throw new Error(taskResponses[400] + ' - Error Code: ' + 400);
+    if (isNaN(id)) generateError('task', 400);
 
     const task = await this.prisma.task.findUnique({
       where: { id },
     });
 
-    if (!task) throw new Error(taskResponses[404] + ' - Error Code: ' + 404);
+    if (!task) generateError('task', 404);
 
-    return task;
+    return {
+      data: task,
+      statusCode: 200,
+    };
   }
 
   async update(data: UpdateTaskDTO) {
-    if (isNaN(data.id))
-      throw new Error(taskResponses[400] + ' - Error Code: ' + 400);
+    if (isNaN(data.id)) generateError('task', 400);
 
     const taskExists = await this.prisma.task.findUnique({
       where: {
@@ -80,8 +76,7 @@ export class TaskService {
       },
     });
 
-    if (!taskExists)
-      throw new Error(taskResponses[404] + ' - Error Code: ' + 404);
+    if (!taskExists) generateError('task', 404);
 
     if (data?.categoryId) {
       const categoryExists = await this.prisma.category.findUnique({
@@ -90,8 +85,7 @@ export class TaskService {
         },
       });
 
-      if (!categoryExists)
-        throw new Error(categoryResponses[404] + ' - Error Code: ' + 404);
+      if (!categoryExists) generateError('category', 404);
     }
 
     const task = await this.prisma.task.update({
@@ -106,20 +100,24 @@ export class TaskService {
       },
     });
 
-    return task;
+    return {
+      data: task,
+      statusCode: 200,
+    };
   }
 
   async delete(id: number) {
-    if (isNaN(id))
-      throw new Error(taskResponses[400] + ' - Error Code: ' + 400);
+    if (isNaN(id)) generateError('task', 400);
 
     const taskExists = await this.prisma.task.findUnique({
       where: { id },
     });
 
-    if (!taskExists)
-      throw new Error(taskResponses[404] + ' - Error Code: ' + 404);
+    if (!taskExists) generateError('task', 404);
 
-    return await this.prisma.task.delete({ where: { id } });
+    return {
+      data: await this.prisma.task.delete({ where: { id } }),
+      statusCode: 200,
+    };
   }
 }

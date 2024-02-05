@@ -1,22 +1,14 @@
 import { Injectable } from '@nestjs/common';
 import { PrismaService } from 'src/database/PrismaService';
 import { CreateCategoryDTO, UpdateCategoryDTO } from './dto';
-
-export const categoryResponses = {
-  400: 'Invalid request format',
-  404: 'Category not found',
-  409: 'This category already exists',
-  201: 'Category successfully created!',
-  200: 'Successful operation',
-};
+import { generateError, responses } from 'src/lib/helpers';
 
 @Injectable()
 export class CategoryService {
   constructor(private prisma: PrismaService) {}
 
   async create(data: CreateCategoryDTO) {
-    if (!data.name)
-      throw new Error(categoryResponses[400] + ' - Error code: ' + 400);
+    if (!data.name) generateError('category', 400);
 
     const categoryExists = await this.prisma.category.findUnique({
       where: {
@@ -24,8 +16,7 @@ export class CategoryService {
       },
     });
 
-    if (categoryExists)
-      throw new Error(categoryResponses[409] + ' - Error Code: ' + 409);
+    if (categoryExists) generateError('category', 409);
 
     const category = await this.prisma.category.create({
       data: {
@@ -33,7 +24,7 @@ export class CategoryService {
       },
     });
 
-    console.log(categoryResponses[201], data);
+    console.log(responses.category[201].message, data);
 
     return category;
   }
@@ -43,22 +34,19 @@ export class CategoryService {
   }
 
   async showById(id: number) {
-    if (isNaN(id))
-      throw new Error(categoryResponses[400] + ' - Error Code: ' + 400);
+    if (isNaN(id)) generateError('category', 400);
 
     const category = await this.prisma.category.findUnique({
       where: { id },
     });
 
-    if (!category)
-      throw new Error(categoryResponses[404] + ' - Error Code: ' + 404);
+    if (!category) generateError('category', 404);
 
     return category;
   }
 
   async update(data: UpdateCategoryDTO) {
-    if (isNaN(data.id))
-      throw new Error(categoryResponses[400] + ' - Error Code: ' + 400);
+    if (isNaN(data.id)) generateError('category', 400);
 
     const categoryExists = await this.prisma.category.findUnique({
       where: {
@@ -66,8 +54,7 @@ export class CategoryService {
       },
     });
 
-    if (!categoryExists)
-      throw new Error(categoryResponses[404] + ' - Error Code: ' + 404);
+    if (!categoryExists) generateError('category', 404);
 
     const category = await this.prisma.category.update({
       data: {
@@ -83,15 +70,13 @@ export class CategoryService {
   }
 
   async delete(id: number) {
-    if (isNaN(id))
-      throw new Error(categoryResponses[400] + ' - Error Code: ' + 400);
+    if (isNaN(id)) generateError('category', 400);
 
     const categoryExists = await this.prisma.category.findUnique({
       where: { id },
     });
 
-    if (!categoryExists)
-      throw new Error(categoryResponses[404] + ' - Error Code: ' + 404);
+    if (!categoryExists) generateError('category', 404);
 
     return await this.prisma.category.delete({ where: { id } });
   }
