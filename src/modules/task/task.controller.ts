@@ -18,7 +18,7 @@ export class TaskController {
   constructor(private readonly taskService: TaskService) {}
 
   @ApiOperation({ summary: 'Create a new task' })
-  @ApiResponse({ status: 200, description: taskResponses[201] })
+  @ApiResponse({ status: 201, description: taskResponses[201] })
   @ApiResponse({ status: 400, description: taskResponses[400] })
   @ApiResponse({ status: 409, description: taskResponses[409] })
   @Post()
