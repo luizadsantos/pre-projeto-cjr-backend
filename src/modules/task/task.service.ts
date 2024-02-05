@@ -7,7 +7,7 @@ import { categoryResponses } from '../category/category.service';
 export const taskResponses = {
   409: 'This task already exists',
   404: 'Task not found',
-  400: "There isn't a categoryId or a categoryName",
+  400: 'Invalid request format',
   201: 'Task successfully created!',
   200: 'Successful operation',
 };
@@ -17,6 +17,9 @@ export class TaskService {
   constructor(private prisma: PrismaService) {}
 
   async create(data: TaskCreateDTO) {
+    if (!data.name)
+      throw new Error(taskResponses[400] + ' - Error code: ' + 400);
+
     const taskExists = await this.prisma.task.findFirst({
       where: {
         name: data.name,
@@ -57,6 +60,9 @@ export class TaskService {
   }
 
   async showById(id: number) {
+    if (isNaN(id))
+      throw new Error(taskResponses[400] + ' - Error Code: ' + 400);
+
     const task = await this.prisma.task.findUnique({
       where: { id },
     });
@@ -67,6 +73,9 @@ export class TaskService {
   }
 
   async update(data: TaskUpdateDTO) {
+    if (isNaN(data.id))
+      throw new Error(taskResponses[400] + ' - Error Code: ' + 400);
+
     const taskExists = await this.prisma.task.findUnique({
       where: {
         id: data.id,
@@ -103,6 +112,9 @@ export class TaskService {
   }
 
   async delete(id: number) {
+    if (isNaN(id))
+      throw new Error(taskResponses[400] + ' - Error Code: ' + 400);
+
     const taskExists = await this.prisma.task.findUnique({
       where: { id },
     });

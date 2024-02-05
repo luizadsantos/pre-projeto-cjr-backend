@@ -35,6 +35,7 @@ export class TaskController {
 
   @ApiOperation({ summary: 'Show a task specified by id' })
   @ApiResponse({ status: 200, description: taskResponses[200] })
+  @ApiResponse({ status: 400, description: taskResponses[400] })
   @ApiResponse({ status: 404, description: taskResponses[404] })
   @Get(':id')
   async showById(@Param('id') id: string) {
