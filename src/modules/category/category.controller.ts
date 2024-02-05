@@ -18,6 +18,7 @@ export class CategoryController {
 
   @ApiOperation({ summary: 'Create a new category' })
   @ApiResponse({ status: 200, description: categoryResponses[200] })
+  @ApiResponse({ status: 400, description: categoryResponses[400] })
   @ApiResponse({ status: 409, description: categoryResponses[409] })
   @Post()
   async create(@Body() data: CategoryDTO) {
@@ -33,6 +34,7 @@ export class CategoryController {
 
   @ApiOperation({ summary: 'Show a category specified by id' })
   @ApiResponse({ status: 200, description: categoryResponses[200] })
+  @ApiResponse({ status: 400, description: categoryResponses[400] })
   @ApiResponse({ status: 404, description: categoryResponses[404] })
   @Get(':id')
   async showById(@Param('id') id: string) {
@@ -41,6 +43,7 @@ export class CategoryController {
 
   @ApiOperation({ summary: 'Update a category specified by id' })
   @ApiResponse({ status: 200, description: categoryResponses[200] })
+  @ApiResponse({ status: 400, description: categoryResponses[400] })
   @ApiResponse({ status: 404, description: categoryResponses[404] })
   @Patch(':id')
   async update(@Body() data: CategoryUpdateDTO, @Param('id') id: string) {
@@ -50,6 +53,7 @@ export class CategoryController {
 
   @ApiOperation({ summary: 'Delete a category specified by id' })
   @ApiResponse({ status: 200, description: categoryResponses[200] })
+  @ApiResponse({ status: 400, description: categoryResponses[400] })
   @ApiResponse({ status: 404, description: categoryResponses[404] })
   @Delete(':id')
   async delete(@Param('id') id: string) {
