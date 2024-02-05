@@ -1,6 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { PrismaService } from 'src/database/PrismaService';
-import { CategoryCreateDTO, CategoryUpdateDTO } from './category.dto';
+import { CreateCategoryDTO, UpdateCategoryDTO } from './dto';
 
 export const categoryResponses = {
   400: 'Invalid request format',
@@ -14,7 +14,7 @@ export const categoryResponses = {
 export class CategoryService {
   constructor(private prisma: PrismaService) {}
 
-  async create(data: CategoryCreateDTO) {
+  async create(data: CreateCategoryDTO) {
     if (!data.name)
       throw new Error(categoryResponses[400] + ' - Error code: ' + 400);
 
@@ -56,7 +56,7 @@ export class CategoryService {
     return category;
   }
 
-  async update(data: CategoryUpdateDTO) {
+  async update(data: UpdateCategoryDTO) {
     if (isNaN(data.id))
       throw new Error(categoryResponses[400] + ' - Error Code: ' + 400);
 

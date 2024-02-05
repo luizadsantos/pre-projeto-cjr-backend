@@ -1,7 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import { PrismaService } from 'src/database/PrismaService';
-import { TaskCreateDTO, TaskUpdateDTO } from './task.dto';
-import { CategoryDTO } from '../category/category.dto';
+import { CreateTaskDTO, UpdateTaskDTO } from './dto';
+import { CategoryDTO } from '../category/dto';
 import { categoryResponses } from '../category/category.service';
 
 export const taskResponses = {
@@ -16,7 +16,7 @@ export const taskResponses = {
 export class TaskService {
   constructor(private prisma: PrismaService) {}
 
-  async create(data: TaskCreateDTO) {
+  async create(data: CreateTaskDTO) {
     if (!data.name)
       throw new Error(taskResponses[400] + ' - Error code: ' + 400);
 
@@ -70,7 +70,7 @@ export class TaskService {
     return task;
   }
 
-  async update(data: TaskUpdateDTO) {
+  async update(data: UpdateTaskDTO) {
     if (isNaN(data.id))
       throw new Error(taskResponses[400] + ' - Error Code: ' + 400);
 

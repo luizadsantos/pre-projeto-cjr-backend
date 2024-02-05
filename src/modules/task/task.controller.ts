@@ -8,7 +8,7 @@ import {
   Post,
 } from '@nestjs/common';
 import { TaskService, taskResponses } from './task.service';
-import { TaskDTO, TaskUpdateDTO } from './task.dto';
+import { TaskDTO, UpdateTaskDTO } from './dto';
 import { ApiOperation, ApiResponse, ApiTags } from '@nestjs/swagger';
 import { categoryResponses } from '../category/category.service';
 
@@ -50,7 +50,7 @@ export class TaskController {
     description: taskResponses[404] + ' or ' + categoryResponses[404],
   })
   @Patch(':id')
-  async update(@Body() data: TaskUpdateDTO, @Param('id') id: string) {
+  async update(@Body() data: UpdateTaskDTO, @Param('id') id: string) {
     data.id = parseInt(id);
     return await this.taskService.update(data);
   }
