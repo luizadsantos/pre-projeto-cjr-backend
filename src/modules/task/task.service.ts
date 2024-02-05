@@ -40,15 +40,13 @@ export class TaskService {
 
       if (!categoryExists)
         throw new Error(categoryResponses[404] + ' - Error code: ' + 404);
-    } else {
-      throw new Error(taskResponses[400] + ' - Error code: ' + 400);
     }
 
     const task = await this.prisma.task.create({
       data: {
         name: data.name,
         isActive: data.isActive,
-        categoryId: data.categoryId,
+        categoryId: data?.categoryId,
       },
     });
 
