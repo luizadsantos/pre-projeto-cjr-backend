@@ -70,4 +70,15 @@ export class CategoryService {
 
     return category;
   }
+
+  async delete(id: number) {
+    const categoryExists = await this.prisma.category.findUnique({
+      where: { id },
+    });
+
+    if (!categoryExists)
+      throw new Error(categoryResponses[404] + ' - Error Code: ' + 404);
+
+    return await this.prisma.category.delete({ where: { id } });
+  }
 }
