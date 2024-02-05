@@ -26,11 +26,17 @@ export class CategoryService {
 
     console.log(responses.category[201].message, data);
 
-    return category;
+    return {
+      data: category,
+      statusCode: 201,
+    };
   }
 
   async showAll() {
-    return await this.prisma.category.findMany();
+    return {
+      data: await this.prisma.category.findMany(),
+      statusCode: 200,
+    };
   }
 
   async showById(id: number) {
@@ -42,7 +48,10 @@ export class CategoryService {
 
     if (!category) generateError('category', 404);
 
-    return category;
+    return {
+      data: category,
+      statusCode: 200,
+    };
   }
 
   async update(data: UpdateCategoryDTO) {
@@ -66,7 +75,10 @@ export class CategoryService {
       },
     });
 
-    return category;
+    return {
+      data: category,
+      statusCode: 200,
+    };
   }
 
   async delete(id: number) {
@@ -78,6 +90,9 @@ export class CategoryService {
 
     if (!categoryExists) generateError('category', 404);
 
-    return await this.prisma.category.delete({ where: { id } });
+    return {
+      data: await this.prisma.category.delete({ where: { id } }),
+      statusCode: 200,
+    };
   }
 }
