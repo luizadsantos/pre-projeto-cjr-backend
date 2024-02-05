@@ -82,6 +82,7 @@ export class TaskService {
         id: data.id,
         name: data.name,
         isActive: data.isActive,
+        categoryId: data?.categoryId,
       },
       where: {
         id: data.id,
