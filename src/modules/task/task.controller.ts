@@ -19,8 +19,8 @@ export class TaskController {
 
   @ApiOperation({ summary: 'Create a new task' })
   @ApiResponse({ status: 200, description: taskResponses[201] })
-  @ApiResponse({ status: 409, description: taskResponses[409] })
   @ApiResponse({ status: 400, description: taskResponses[400] })
+  @ApiResponse({ status: 409, description: taskResponses[409] })
   @Post()
   async create(@Body() data: TaskDTO) {
     return this.taskService.create(data);
@@ -44,6 +44,7 @@ export class TaskController {
 
   @ApiOperation({ summary: 'Update a task specified by id' })
   @ApiResponse({ status: 200, description: taskResponses[200] })
+  @ApiResponse({ status: 400, description: taskResponses[400] })
   @ApiResponse({
     status: 404,
     description: taskResponses[404] + ' or ' + categoryResponses[404],
@@ -56,6 +57,7 @@ export class TaskController {
 
   @ApiOperation({ summary: 'Delete a task specified by id' })
   @ApiResponse({ status: 200, description: taskResponses[200] })
+  @ApiResponse({ status: 400, description: taskResponses[400] })
   @ApiResponse({ status: 404, description: taskResponses[404] })
   @Delete(':id')
   async delete(@Param('id') id: string) {
