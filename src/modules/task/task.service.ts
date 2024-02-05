@@ -91,4 +91,15 @@ export class TaskService {
 
     return task;
   }
+
+  async delete(id: number) {
+    const taskExists = await this.prisma.task.findUnique({
+      where: { id },
+    });
+
+    if (!taskExists)
+      throw new Error(taskResponses[404] + ' - Error Code: ' + 404);
+
+    return await this.prisma.task.delete({ where: { id } });
+  }
 }
