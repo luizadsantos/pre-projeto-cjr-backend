@@ -8,7 +8,7 @@ import {
   Post,
 } from '@nestjs/common';
 import { TaskService, taskResponses } from './task.service';
-import { TaskDTO, UpdateTaskDTO } from './dto';
+import { CreateTaskDTO, UpdateTaskDTO } from './dto';
 import { ApiOperation, ApiResponse, ApiTags } from '@nestjs/swagger';
 import { categoryResponses } from '../category/category.service';
 
@@ -22,7 +22,7 @@ export class TaskController {
   @ApiResponse({ status: 400, description: taskResponses[400] })
   @ApiResponse({ status: 409, description: taskResponses[409] })
   @Post()
-  async create(@Body() data: TaskDTO) {
+  async create(@Body() data: CreateTaskDTO) {
     return this.taskService.create(data);
   }
 

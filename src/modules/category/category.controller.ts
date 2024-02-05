@@ -8,7 +8,7 @@ import {
   Post,
 } from '@nestjs/common';
 import { CategoryService, categoryResponses } from './category.service';
-import { CategoryDTO, UpdateCategoryDTO } from './dto';
+import { CreateCategoryDTO, UpdateCategoryDTO } from './dto';
 import { ApiOperation, ApiResponse, ApiTags } from '@nestjs/swagger';
 
 @ApiTags('Categories routes')
@@ -21,7 +21,7 @@ export class CategoryController {
   @ApiResponse({ status: 400, description: categoryResponses[400] })
   @ApiResponse({ status: 409, description: categoryResponses[409] })
   @Post()
-  async create(@Body() data: CategoryDTO) {
+  async create(@Body() data: CreateCategoryDTO) {
     return await this.categoryService.create(data);
   }
 
