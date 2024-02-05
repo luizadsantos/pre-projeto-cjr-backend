@@ -6,7 +6,8 @@ export const categoryResponses = {
   400: 'Invalid request format',
   404: 'Category not found',
   409: 'This category already exists',
-  200: 'Category successfully created!',
+  201: 'Category successfully created!',
+  200: 'Successful operation',
 };
 
 @Injectable()
@@ -32,7 +33,7 @@ export class CategoryService {
       },
     });
 
-    console.log(categoryResponses[200], data);
+    console.log(categoryResponses[201], data);
 
     return category;
   }
