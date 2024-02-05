@@ -17,7 +17,7 @@ import { responses } from 'src/lib/helpers';
 export class CategoryController {
   constructor(private readonly categoryService: CategoryService) {}
 
-  @ApiOperation({ summary: 'Create a new category' })
+  @ApiOperation({ summary: 'Creates a new category' })
   @ApiResponse({ status: 201, description: responses.category[201].message })
   @ApiResponse({ status: 400, description: responses.category[400].error })
   @ApiResponse({ status: 409, description: responses.category[409].error })
@@ -26,14 +26,14 @@ export class CategoryController {
     return await this.categoryService.create(data);
   }
 
-  @ApiOperation({ summary: 'Show all categories' })
+  @ApiOperation({ summary: 'Shows all categories' })
   @ApiResponse({ status: 200, description: responses.category[200].message })
   @Get()
   async showAll() {
     return await this.categoryService.showAll();
   }
 
-  @ApiOperation({ summary: 'Show a category specified by id' })
+  @ApiOperation({ summary: 'Shows a category specified by id' })
   @ApiResponse({ status: 200, description: responses.category[200].message })
   @ApiResponse({ status: 400, description: responses.category[400].error })
   @ApiResponse({ status: 404, description: responses.category[404].error })
@@ -42,7 +42,7 @@ export class CategoryController {
     return await this.categoryService.showById(parseInt(id));
   }
 
-  @ApiOperation({ summary: 'Update a category specified by id' })
+  @ApiOperation({ summary: 'Updates a category specified by id' })
   @ApiResponse({ status: 200, description: responses.category[200].message })
   @ApiResponse({ status: 400, description: responses.category[400].error })
   @ApiResponse({ status: 404, description: responses.category[404].error })
@@ -52,7 +52,7 @@ export class CategoryController {
     return await this.categoryService.update(data);
   }
 
-  @ApiOperation({ summary: 'Delete a category specified by id' })
+  @ApiOperation({ summary: 'Deletes a category specified by id' })
   @ApiResponse({ status: 200, description: responses.category[200].message })
   @ApiResponse({ status: 400, description: responses.category[400].error })
   @ApiResponse({ status: 404, description: responses.category[404].error })

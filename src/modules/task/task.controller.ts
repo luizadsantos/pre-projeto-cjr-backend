@@ -17,7 +17,7 @@ import { responses } from 'src/lib/helpers';
 export class TaskController {
   constructor(private readonly taskService: TaskService) {}
 
-  @ApiOperation({ summary: 'Create a new task' })
+  @ApiOperation({ summary: 'Creates a new task' })
   @ApiResponse({ status: 201, description: responses.task[201].message })
   @ApiResponse({ status: 400, description: responses.task[400].error })
   @ApiResponse({ status: 409, description: responses.task[409].error })
@@ -26,14 +26,14 @@ export class TaskController {
     return this.taskService.create(data);
   }
 
-  @ApiOperation({ summary: 'Show all tasks' })
+  @ApiOperation({ summary: 'Shows all tasks' })
   @ApiResponse({ status: 200, description: responses.task[200].message })
   @Get()
   async showAll() {
     return await this.taskService.showAll();
   }
 
-  @ApiOperation({ summary: 'Show a task specified by id' })
+  @ApiOperation({ summary: 'Shows a task specified by id' })
   @ApiResponse({ status: 200, description: responses.task[200].message })
   @ApiResponse({ status: 400, description: responses.task[400].error })
   @ApiResponse({ status: 404, description: responses.task[404].error })
@@ -42,7 +42,7 @@ export class TaskController {
     return await this.taskService.showById(parseInt(id));
   }
 
-  @ApiOperation({ summary: 'Update a task specified by id' })
+  @ApiOperation({ summary: 'Updates a task specified by id' })
   @ApiResponse({ status: 200, description: responses.task[200].message })
   @ApiResponse({ status: 400, description: responses.task[400].error })
   @ApiResponse({
@@ -56,7 +56,7 @@ export class TaskController {
     return await this.taskService.update(data);
   }
 
-  @ApiOperation({ summary: 'Delete a task specified by id' })
+  @ApiOperation({ summary: 'Deletes a task specified by id' })
   @ApiResponse({ status: 200, description: responses.task[200].message })
   @ApiResponse({ status: 400, description: responses.task[400].error })
   @ApiResponse({ status: 404, description: responses.task[404].error })
