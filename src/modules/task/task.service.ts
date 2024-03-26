@@ -149,6 +149,13 @@ export class TaskService {
     };
   }
 
+  async showNonActive() {
+    return {
+      data: await this.prisma.task.findMany({ where: { isActive: false } }),
+      statusCode: 200,
+    };
+  }
+
   async showAllByCategory(id: number) {
     if (isNaN(id)) generateError('task', 400);
 
