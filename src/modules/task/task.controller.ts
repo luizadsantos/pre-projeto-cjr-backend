@@ -40,6 +40,13 @@ export class TaskController {
     return await this.taskService.showActive();
   }
 
+  @ApiOperation({ summary: 'Shows all non-active tasks' })
+  @ApiResponse({ status: 200, description: responses.task[200].message })
+  @Get('nonactive')
+  async showNonActive() {
+    return await this.taskService.showNonActive();
+  }
+
   @ApiOperation({ summary: 'Shows a task specified by id' })
   @ApiResponse({ status: 200, description: responses.task[200].message })
   @ApiResponse({ status: 400, description: responses.task[400].error })
